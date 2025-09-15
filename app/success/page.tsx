@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Mail, Calendar, MapPin } from 'lucide-react';
+import { CheckCircle, Mail, Calendar, Users } from 'lucide-react';
+import Link from 'next/link';
 
 export default function SuccessPage() {
   const searchParams = useSearchParams();
@@ -25,7 +26,7 @@ export default function SuccessPage() {
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
-          <p className="text-lg text-gray-600">Processing your subscription...</p>
+          <p className="text-gray-600">Processing your subscription...</p>
         </div>
       </div>
     );
@@ -35,16 +36,15 @@ export default function SuccessPage() {
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
-            <div className="bg-green-100 rounded-full p-4">
-              <CheckCircle className="h-16 w-16 text-green-600" />
-            </div>
+          <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
+            <CheckCircle className="h-8 w-8 text-green-600" />
           </div>
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Welcome to RealEstate Leads Pro!
           </h1>
-          <p className="text-xl text-gray-600 mb-8">
-            Your subscription has been successfully activated. You'll start receiving high-quality leads soon.
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Your subscription is now active. Get ready to receive high-quality leads 
+            delivered directly to your inbox every month.
           </p>
         </div>
 
@@ -52,36 +52,36 @@ export default function SuccessPage() {
           <Card className="shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
-                <Mail className="h-5 w-5 text-blue-600" />
+                <Calendar className="h-5 w-5 text-blue-600" />
                 <span>What Happens Next?</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-start space-x-3">
-                <div className="bg-blue-100 rounded-full p-1 mt-1">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-xs font-semibold text-blue-600">1</span>
                 </div>
                 <div>
-                  <h4 className="font-semibold">Confirmation Email</h4>
-                  <p className="text-sm text-gray-600">You'll receive a confirmation email with your subscription details within the next few minutes.</p>
+                  <h4 className="font-semibold text-gray-900">Lead Generation Begins</h4>
+                  <p className="text-sm text-gray-600">We start generating leads in your target area within 24 hours</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
-                <div className="bg-blue-100 rounded-full p-1 mt-1">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-xs font-semibold text-blue-600">2</span>
                 </div>
                 <div>
-                  <h4 className="font-semibold">Lead Delivery Setup</h4>
-                  <p className="text-sm text-gray-600">Our team will configure your lead targeting within 24 hours.</p>
+                  <h4 className="font-semibold text-gray-900">Monthly Delivery</h4>
+                  <p className="text-sm text-gray-600">Leads are delivered on the same date each month</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
-                <div className="bg-blue-100 rounded-full p-1 mt-1">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-xs font-semibold text-blue-600">3</span>
                 </div>
                 <div>
-                  <h4 className="font-semibold">First Leads</h4>
-                  <p className="text-sm text-gray-600">You'll receive your first batch of leads within 48 hours.</p>
+                  <h4 className="font-semibold text-gray-900">Start Converting</h4>
+                  <p className="text-sm text-gray-600">Contact your leads and start closing more deals</p>
                 </div>
               </div>
             </CardContent>
@@ -90,66 +90,53 @@ export default function SuccessPage() {
           <Card className="shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
-                <Calendar className="h-5 w-5 text-green-600" />
-                <span>Your Subscription</span>
+                <Mail className="h-5 w-5 text-green-600" />
+                <span>Important Information</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <h4 className="font-semibold text-green-800 mb-2">Active Subscription</h4>
-                <p className="text-sm text-green-700">Your monthly lead subscription is now active and will renew automatically.</p>
+                <h4 className="font-semibold text-green-800 mb-2">Confirmation Email Sent</h4>
+                <p className="text-sm text-green-700">
+                  Check your inbox for a confirmation email with your subscription details and next steps.
+                </p>
               </div>
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <MapPin className="h-4 w-4 text-gray-500" />
-                  <span className="text-sm">15-mile radius targeting</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <CheckCircle className="h-4 w-4 text-gray-500" />
-                  <span className="text-sm">Verified contact information</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Mail className="h-4 w-4 text-gray-500" />
-                  <span className="text-sm">Monthly delivery schedule</span>
-                </div>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h4 className="font-semibold text-blue-800 mb-2">Customer Support</h4>
+                <p className="text-sm text-blue-700">
+                  Questions? Contact our support team at support@realestateleadspro.com
+                </p>
               </div>
             </CardContent>
           </Card>
         </div>
 
         <div className="text-center">
-          <Card className="shadow-lg bg-blue-50 border-blue-200">
-            <CardContent className="py-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Need Help Getting Started?</h3>
-              <p className="text-gray-600 mb-6">
-                Our support team is here to help you maximize your lead conversion. 
-                We'll provide tips and best practices for following up with your new leads.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button 
-                  className="bg-blue-600 hover:bg-blue-700"
-                  onClick={() => window.location.href = 'mailto:support@realestateleadspro.com'}
-                >
-                  Contact Support
-                </Button>
-                <Button 
-                  variant="outline"
-                  onClick={() => window.location.href = '/'}
-                >
-                  Return to Homepage
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {sessionId && (
-          <div className="mt-8 text-center">
-            <p className="text-sm text-gray-500">
-              Session ID: {sessionId}
-            </p>
+          <h3 className="text-2xl font-bold text-gray-900 mb-6">Ready to Start Converting?</h3>
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <div className="text-center">
+              <Users className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+              <h4 className="font-semibold text-gray-900">Quality Leads</h4>
+              <p className="text-sm text-gray-600">Verified contact information</p>
+            </div>
+            <div className="text-center">
+              <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
+              <h4 className="font-semibold text-gray-900">Targeted Area</h4>
+              <p className="text-sm text-gray-600">15-mile radius from your zip code</p>
+            </div>
+            <div className="text-center">
+              <Calendar className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+              <h4 className="font-semibold text-gray-900">Monthly Delivery</h4>
+              <p className="text-sm text-gray-600">Consistent lead flow</p>
+            </div>
           </div>
-        )}
+          
+          <Link href="/">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-3">
+              Return to Homepage
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );
