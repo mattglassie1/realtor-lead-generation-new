@@ -1,24 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { headers } from 'next/headers';
 import Stripe from 'stripe';
-import { updateRealtorLead, getRealtorLeadByEmail } from '@/lib/db';
+import { updateLeadStatus } from '@/lib/db';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2024-12-18.acacia',
+  apiVersion: '2024-06-20',
 });
+
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
-  const signature = headers().get('stripe-signature');
+  const signature = request.headers.get('stripe-signature')!;
 
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature!,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    );
+    event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err) {
     console.error('Webhook signature verification failed:', err);
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
@@ -29,24 +26,20 @@ export async function POST(request: NextRequest) {
       case 'checkout.session.completed':
         const session = event.data.object as Stripe.Checkout.Session;
         
-        if (session.customer && session.subscription) {
-          // Find the lead by customer email
-          const customer = await stripe.customers.retrieve(session.customer as string);
-          if (customer && !customer.deleted && customer.email) {
-            const lead = await getRealtorLeadByEmail(customer.email);
-            if (lead) {
-              await updateRealtorLead(lead.id, {
-                stripe_subscription_id: session.subscription as string,
-              });
-            }
-          }
+        if (session.metadata?.leadEmail) {
+          await updateLeadStatus(session.metadata.leadEmail, 'active');
+          console.log(`Lead activated: ${session.metadata.leadEmail}`);
         }
         break;
 
       case 'customer.subscription.deleted':
         const subscription = event.data.object as Stripe.Subscription;
-        // Handle subscription cancellation if needed
-        console.log('Subscription cancelled:', subscription.id);
+        const customer = await stripe.customers.retrieve(subscription.customer as string);
+        
+        if (customer && !customer.deleted && customer.email) {
+          await updateLeadStatus(customer.email, 'cancelled');
+          console.log(`Subscription cancelled: ${customer.email}`);
+        }
         break;
 
       default:
@@ -55,9 +48,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ received: true });
   } catch (error) {
-    console.error('Error processing webhook:', error);
+    console.error('Webhook handler error:', error);
     return NextResponse.json(
-      { error: 'Webhook processing failed' },
+      { error: 'Webhook handler failed' },
       { status: 500 }
     );
   }
