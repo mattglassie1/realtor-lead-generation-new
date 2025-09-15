@@ -1,0 +1,17 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "bun run build",
+  "devCommand": "bun run dev",
+  "installCommand": "bun install",
+  "env": {
+    "STRIPE_SECRET_KEY": "@stripe_secret_key",
+    "STRIPE_PUBLISHABLE_KEY": "@stripe_publishable_key", 
+    "STRIPE_WEBHOOK_SECRET": "@stripe_webhook_secret",
+    "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY": "@stripe_publishable_key",
+    "PGUSER": "@pguser",
+    "PGPASSWORD": "@pgpassword",
+    "PGDATABASE": "@pgdatabase",
+    "PGHOST": "@pghost",
+    "PGPORT": "@pgport"
+  }
+}
